@@ -156,54 +156,95 @@
         const Layout = ({ children }) => {
             const location = useLocation();
             const currentPath = location.pathname;
+            const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             const navLinks = [
                 { name: 'Home', path: '/' },
                 { name: 'Life', path: '/life' },
                 { name: 'Theology', path: '/theology' },
                 { name: 'Icons', path: '/icons' },
-                { name: 'Legacy', path: '/legacy' },
                 { name: 'Virtues', path: '/virtues' },
-                { name: 'Symbols', path: '/symbols' }
+                { name: 'Symbols', path: '/symbols' },
+                { name: 'Legacy', path: '/legacy' }
             ];
 
             return (
-                <div className="flex flex-col min-h-screen">
-                    <header className="fixed top-0 w-full z-50 bg-[#1A1208] backdrop-blur-md bg-opacity-85 flex justify-between items-center px-6 md:px-12 py-4 md:py-6 bg-gradient-to-b from-[#231A0F] to-[#1A1208] border-b border-[#4F4536]/20">
-                        <Link to="/" className="text-xl md:text-2xl font-serif text-[#C8972A] tracking-widest uppercase serif-text hover:opacity-80 transition-opacity">
+                <div className="flex flex-col min-h-screen relative">
+                    <header className="fixed top-0 w-full z-50 bg-[#1A1208]/95 backdrop-blur-md flex justify-between items-center px-4 md:px-12 py-3 md:py-6 bg-gradient-to-b from-[#231A0F]/95 to-[#1A1208]/95 border-b border-[#4F4536]/20">
+                        <Link to="/" className="text-base sm:text-lg md:text-2xl font-serif text-[#C8972A] tracking-widest uppercase serif-text hover:opacity-80 transition-opacity whitespace-nowrap overflow-hidden text-ellipsis mr-2">
                             The Sacred Manual
                         </Link>
-                        <nav className="hidden lg:flex gap-6 xl:gap-8">
-                            {navLinks.map(link => (
-                                <Link
-                                    key={link.path}
-                                    to={link.path}
-                                    className={`font-['Noto_Serif'] tracking-widest uppercase text-xs xl:text-sm transition-all duration-300 active:scale-95 ${currentPath === link.path
-                                            ? 'text-[#C8972A] border-b border-[#C8972A] pb-1'
-                                            : 'text-[#F5E9C8] opacity-70 hover:text-[#C8972A] hover:opacity-100'
-                                        }`}
+                        
+                        <div className="flex items-center gap-3 md:gap-8">
+                            <nav className="hidden xl:flex gap-6 xl:gap-8">
+                                {navLinks.map(link => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className={`font-['Noto_Serif'] tracking-widest uppercase text-xs xl:text-sm transition-all duration-300 active:scale-95 ${currentPath === link.path
+                                                ? 'text-[#C8972A] border-b border-[#C8972A] pb-1'
+                                                : 'text-[#F5E9C8] opacity-70 hover:text-[#C8972A] hover:opacity-100'
+                                            }`}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
+                            </nav>
+                            
+                            <div className="relative">
+                                <button 
+                                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                    className="text-[#C8972A] cursor-pointer hover:opacity-80 transition-opacity active:scale-95 flex items-center justify-center p-2 rounded-full hover:bg-white/5 disabled:opacity-50"
+                                    aria-label="Menu"
+                                    aria-expanded={isMenuOpen}
                                 >
-                                    {link.name}
-                                </Link>
-                            ))}
-                        </nav>
-                        <div className="text-[#C8972A] cursor-pointer active:scale-95 flex items-center gap-4">
-                            <span className="material-symbols-outlined text-3xl">menu_book</span>
+                                    <span className="material-symbols-outlined text-2xl md:text-3xl">
+                                        {isMenuOpen ? 'menu_open' : 'menu_book'}
+                                    </span>
+                                </button>
+                                
+                                {isMenuOpen && (
+                                    <>
+                                        <div className="fixed inset-0 z-40 bg-black/60 xl:hidden top-[0px]" style={{ height: '100vh', width: '100vw', left: 0 }} onClick={() => setIsMenuOpen(false)}></div>
+                                        <div className="absolute right-0 mt-2 w-56 sm:w-64 bg-[#1A1208] border border-[#4F4536]/50 shadow-[0_10px_40px_rgba(0,0,0,0.8)] rounded-md flex flex-col py-2 z-50 overflow-hidden">
+                                            <div className="px-6 py-3 border-b border-[#4F4536]/30 mb-2">
+                                                <span className="text-xs uppercase tracking-[0.2em] font-headline text-[#F5E9C8]/50">Navigation</span>
+                                            </div>
+                                            {navLinks.map(link => (
+                                                <Link
+                                                    key={link.path}
+                                                    to={link.path}
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                    className={`px-6 py-3 font-['Noto_Serif'] tracking-widest uppercase text-xs md:text-sm transition-all duration-300 flex items-center gap-3 ${currentPath === link.path
+                                                        ? 'text-[#C8972A] bg-[#C8972A]/10 border-l-2 border-[#C8972A]'
+                                                        : 'text-[#F5E9C8] opacity-80 hover:text-[#C8972A] hover:bg-white/5 border-l-2 border-transparent'
+                                                    }`}
+                                                >
+                                                    <span className="material-symbols-outlined text-[18px]">
+                                                        {currentPath === link.path ? 'auto_stories' : 'bookmark_border'}
+                                                    </span>
+                                                    {link.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </header>
 
-                    <main className="flex-grow pt-24 md:pt-32">
+                    <main className="flex-grow pt-20 md:pt-32 w-full overflow-x-hidden">
                         {children}
                     </main>
 
-                    <footer className="bg-[#140D04] text-[#C8972A] font-['Noto_Serif'] text-sm italic tracking-tight flex flex-col md:flex-row justify-between items-center px-16 py-8 w-full border-t border-[#4F4536]/15 mt-auto">
-                        <div className="mb-4 md:mb-0">Saint John of Damascus — Pray for Us.</div>
+                    <footer className="bg-[#140D04] text-[#C8972A] font-['Noto_Serif'] text-xs sm:text-sm italic tracking-tight flex flex-col md:flex-row justify-between items-center px-6 md:px-16 py-6 md:py-8 w-full border-t border-[#4F4536]/15 mt-auto gap-4 md:gap-0 z-10">
+                        <div className="text-center md:text-left">Saint John of Damascus — Pray for Us.</div>
                         <div className="hidden md:flex items-center gap-4">
                             <span className="w-4 h-[1px] bg-[#C8972A]/30"></span>
                             <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>circle</span>
                             <span className="w-4 h-[1px] bg-[#C8972A]/30"></span>
                         </div>
-                        <div className="hover:text-[#4A2060] transition-all cursor-default">Developed by Dylan Nguyen</div>
+                        <div className="hover:text-[#4A2060] transition-all cursor-default text-center md:text-right">Developed by Dylan Nguyen</div>
                     </footer>
                 </div>
             );
@@ -213,46 +254,46 @@
         const LandingPage = () => {
             const navigate = useNavigate();
             return (
-                <div className="min-h-screen pb-24 flex flex-col items-center justify-center px-6">
-                    <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <div className="min-h-screen pb-16 md:pb-24 flex flex-col items-center justify-center px-4 md:px-6 mt-8 md:mt-0">
+                    <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
                         <div className="hidden md:flex col-span-1 flex-col items-center space-y-4 opacity-30">
                             <div className="w-[1px] h-32 bg-[#C8972A]"></div>
                             <span className="material-symbols-outlined text-[#C8972A]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
                             <div className="w-[1px] h-32 bg-[#C8972A]"></div>
                         </div>
-                        <div className="md:col-span-10 flex flex-col items-center text-center space-y-12">
-                            <header className="space-y-4">
-                                <h1 className="text-5xl md:text-7xl font-headline font-bold text-[#C8972A] tracking-tighter">
+                        <div className="md:col-span-10 flex flex-col items-center text-center space-y-8 md:space-y-12">
+                            <header className="space-y-3 md:space-y-4">
+                                <h1 className="text-4xl sm:text-5xl md:text-7xl font-headline font-bold text-[#C8972A] tracking-tighter sm:whitespace-nowrap">
                                     Saint John of Damascus
                                 </h1>
-                                <p className="text-xl md:text-2xl font-headline italic text-tertiary tracking-wide">
+                                <p className="text-lg sm:text-xl md:text-2xl font-headline italic text-tertiary tracking-wide px-2">
                                     Doctor of the Church · Defender of the Holy Icons
                                 </p>
                             </header>
-                            <div className="relative group">
-                                <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-container/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
-                                <div className="relative bg-surface-container-high p-1 shadow-2xl">
+                            <div className="relative group px-4 w-full flex justify-center">
+                                <div className="absolute inset-0 bg-gradient-to-tr from-secondary-container/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                <div className="relative bg-surface-container-high p-1 shadow-2xl w-full max-w-[280px] sm:max-w-sm md:max-w-md">
                                     <img
                                         alt="Icon of Saint John of Damascus"
-                                        className="w-full max-w-md h-auto object-cover border border-[#4F4536]/30 shadow-[0_0_50px_rgba(200,151,42,0.15)]"
+                                        className="w-full h-auto object-cover border border-[#4F4536]/30 shadow-[0_0_50px_rgba(200,151,42,0.15)]"
                                         src="https://lh3.googleusercontent.com/aida/ADBb0ui_ppfCVOZiThy3gVQM6bqMawDvQNvJ0Y23ORVZgI8C3W4jShqD0sT4Es46sV21Tc4PLGRVNyw6I1KZGhYMeZPk6IfbJUaRX36omZ5poKUwsce00enzGUTe3DnEpVmgOiJIYZeaF0pPcCGpuHtZdRXECYPXZ8bLcPuZ2LBGkFmAIttEn3jd9J0ciVZ-CGzVTxP5WaADEZuM9yaI5VCi1riFX6p7tk13PQMiIoDZr14w_PjCNDJblGX4LTxh6ravltDB4zeJy9ZbFTE"
                                     />
                                     <div className="absolute inset-1 pointer-events-none border border-[#4F4536]/15"></div>
                                 </div>
                             </div>
-                            <div className="max-w-2xl space-y-6">
+                            <div className="max-w-lg md:max-w-2xl space-y-6 px-2">
                                 <div className="flex items-center justify-center space-x-4">
                                     <div className="h-[1px] w-8 bg-outline-variant/30"></div>
                                     <span className="material-symbols-outlined text-[#C8972A] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
                                     <div className="h-[1px] w-8 bg-outline-variant/30"></div>
                                 </div>
-                                <p className="text-lg md:text-xl font-body text-on-surface leading-relaxed tracking-wide">
+                                <p className="text-base sm:text-lg md:text-xl font-body text-on-surface leading-relaxed tracking-wide">
                                     Patron Saint of <span className="text-[#C8972A] font-semibold">Theologians</span>, <span className="text-[#C8972A] font-semibold">Icon Painters</span>, and <span className="text-[#C8972A] font-semibold">Pharmacists</span>.
                                 </p>
-                                <div className="pt-8 flex justify-center">
+                                <div className="pt-4 md:pt-8 flex justify-center w-full">
                                     <button
                                         onClick={() => navigate('/life')}
-                                        className="px-10 py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-sm hover:bg-secondary-container hover:text-white transition-all duration-500 cursor-pointer active:scale-95"
+                                        className="w-full sm:w-auto px-8 md:px-10 py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-xs sm:text-sm hover:bg-secondary-container hover:text-white transition-all duration-500 cursor-pointer active:scale-95"
                                     >
                                         Enter the Manual
                                     </button>
@@ -272,15 +313,15 @@
         // --- Screen 1: Life Chronology ---
         const LifePage = () => {
             return (
-                <div className="max-w-7xl mx-auto px-8 md:px-24 pb-24">
-                    <div className="mb-16">
-                        <p className="text-[#C8972A] serif-text uppercase tracking-[0.3em] text-sm mb-4">Chronicle of the Doctor of Christian Art</p>
-                        <h1 className="text-5xl md:text-7xl font-bold serif-text text-[#f1e0ce] leading-tight max-w-3xl">
+                <div className="max-w-7xl mx-auto px-6 md:px-24 pb-16 md:pb-24">
+                    <div className="mb-10 md:mb-16">
+                        <p className="text-[#C8972A] serif-text uppercase tracking-[0.2em] sm:tracking-[0.3em] text-xs sm:text-sm mb-4">Chronicle of the Doctor of Christian Art</p>
+                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold serif-text text-[#f1e0ce] leading-tight max-w-3xl">
                             When & Where He Lived
                         </h1>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                        <div className="lg:col-span-5 flex flex-col gap-8 order-2 lg:order-1">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
+                        <div className="lg:col-span-5 flex flex-col gap-6 md:gap-8 order-2 lg:order-1">
                             <div className="bg-surface-container-high p-1 relative overflow-hidden group">
                                 <img
                                     alt="Chronicle Map"
@@ -303,14 +344,14 @@
                                 { date: "676 – 726 AD", title: "Tax Collector & Statesman", text: "Following his father’s footsteps, he served as a tax collector for the Umayyad Caliphate until the age of 50, mastering the complexities of civil law and theology." },
                                 { date: "c. 706 AD", title: "Entry to Mar Saba Monastery", text: "Abandoning worldly wealth, he entered the Mar Saba Monastery near Jerusalem. This transition marked his shift from secular governance to spiritual defense." },
                                 { date: "726 – 730 AD", title: "The Iconoclastic Defense", text: "Issued powerful treatises defending the veneration of holy icons against the decrees of Byzantine Emperor Leo III, arguing for the sanctity of matter." },
-                                { date: "Later Years", title: "Critique of Islam", text: "Composed 'The Fountain of Wisdom,' which included one of the earliest Christian theological critiques of Islam, viewed then as a Christian heresy." },
+                                { date: "Some time...", title: "Later Years", text: "Composed 'The Fountain of Wisdom,' which included one of the earliest Christian theological critiques of Islam, viewed then as a Christian heresy." },
                                 { date: "c. 749 AD", title: "Died in Peace", text: "The Last of the Greek Fathers reposed in the Lord at Mar Saba, leaving a legacy that would define the Second Council of Nicaea." }
                             ].map((item, idx) => (
-                                <div key={idx} className={`relative pl-12 pb-12 border-l border-outline-variant/30 ${idx % 2 !== 0 ? 'bg-surface-container-low/30' : ''}`}>
+                                <div key={idx} className={`relative pl-8 md:pl-12 pb-10 md:pb-12 border-l border-outline-variant/30 ${idx % 2 !== 0 ? 'bg-surface-container-low/30' : ''}`}>
                                     <div className={`absolute -left-[5px] top-0 w-[10px] h-[10px] ${idx === 5 ? 'bg-primary' : 'bg-secondary-container'}`}></div>
-                                    <span className="text-[#C8972A] serif-text font-bold text-2xl">{item.date}</span>
-                                    <h4 className="text-f1e0ce text-xl font-semibold mt-2">{item.title}</h4>
-                                    <p className="text-on-surface-variant mt-3 max-w-lg leading-relaxed">{item.text}</p>
+                                    <span className="text-[#C8972A] serif-text font-bold text-xl md:text-2xl">{item.date}</span>
+                                    <h4 className="text-f1e0ce text-lg md:text-xl font-semibold mt-2">{item.title}</h4>
+                                    <p className="text-on-surface-variant mt-2 md:mt-3 max-w-lg leading-relaxed text-sm md:text-base">{item.text}</p>
                                 </div>
                             ))}
                         </div>
