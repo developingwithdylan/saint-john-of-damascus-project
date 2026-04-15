@@ -149,7 +149,7 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
         const { createRoot } = ReactDOM;
-        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+        const { BrowserRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
 
         // --- Shared Components ---
 
@@ -660,7 +660,7 @@
 
         const App = () => {
             return (
-                <MemoryRouter>
+                <BrowserRouter>
                     <Layout>
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
@@ -672,7 +672,7 @@
                             <Route path="/legacy" element={<LegacyPage />} />
                         </Routes>
                     </Layout>
-                </MemoryRouter>
+                </BrowserRouter>
             );
         };
 
