@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>The Sacred Manual - Saint John of Damascus</title>
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#4e462e",
+                        "surface-container-highest": "#3d3327",
+                        "inverse-on-surface": "#392f23",
+                        "secondary-fixed": "#f6d9ff",
+                        "inverse-surface": "#f1e0ce",
+                        "error-container": "#93000a",
+                        "tertiary": "#d1c6a6",
+                        "outline": "#9b8f7c",
+                        "secondary-fixed-dim": "#e7b4fe",
+                        "on-tertiary-container": "#3c351f",
+                        "primary-container": "#c8972a",
+                        "surface-container": "#271e13",
+                        "secondary": "#e7b4fe",
+                        "on-secondary-fixed-variant": "#5f3575",
+                        "on-primary": "#412d00",
+                        "surface-variant": "#3d3327",
+                        "outline-variant": "#4f4536",
+                        "tertiary-container": "#a89e81",
+                        "on-error": "#690005",
+                        "surface-container-high": "#32281d",
+                        "tertiary-fixed": "#eee2c1",
+                        "surface-dim": "#1a1208",
+                        "primary": "#f4be4f",
+                        "on-secondary-container": "#d9a6ef",
+                        "surface-bright": "#42372b",
+                        "on-primary-fixed-variant": "#5d4200",
+                        "on-primary-container": "#483200",
+                        "surface-container-low": "#231a0f",
+                        "surface": "#1a1208",
+                        "on-tertiary": "#36301a",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed": "#300346",
+                        "on-surface": "#f1e0ce",
+                        "primary-fixed-dim": "#f4be4f",
+                        "primary-fixed": "#ffdea4",
+                        "on-primary-fixed": "#261900",
+                        "inverse-primary": "#7b5800",
+                        "surface-tint": "#f4be4f",
+                        "secondary-container": "#623778",
+                        "surface-container-lowest": "#140d04",
+                        "on-surface-variant": "#d3c5b0",
+                        "on-background": "#f1e0ce",
+                        "on-secondary": "#471d5d",
+                        "on-tertiary-fixed": "#211b07",
+                        "tertiary-fixed-dim": "#d1c6a6",
+                        "error": "#ffb4ab",
+                        "background": "#1a1208"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            background-color: #1a1208;
+            color: #f1e0ce;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .serif-text,
+        .font-headline {
+            font-family: 'Noto Serif', serif;
+        }
+
+        .parchment-texture {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        .ghost-border {
+            outline: 1px solid rgba(79, 69, 54, 0.15);
+            outline-offset: -1px;
+        }
+
+        /* Custom scrollbar for better theme fit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1208;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4f4536;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c8972a;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <div id="root"></div>
+
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Shared Components ---
+
+        const Layout = ({ children }) => {
+            const location = useLocation();
+            const currentPath = location.pathname;
+
+            const navLinks = [
+                { name: 'Home', path: '/' },
+                { name: 'Life', path: '/life' },
+                { name: 'Theology', path: '/theology' },
+                { name: 'Icons', path: '/icons' },
+                { name: 'Legacy', path: '/legacy' },
+                { name: 'Virtues', path: '/virtues' },
+                { name: 'Symbols', path: '/symbols' }
+            ];
+
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <header className="fixed top-0 w-full z-50 bg-[#1A1208] backdrop-blur-md bg-opacity-85 flex justify-between items-center px-6 md:px-12 py-4 md:py-6 bg-gradient-to-b from-[#231A0F] to-[#1A1208] border-b border-[#4F4536]/20">
+                        <Link to="/" className="text-xl md:text-2xl font-serif text-[#C8972A] tracking-widest uppercase serif-text hover:opacity-80 transition-opacity">
+                            The Sacred Manual
+                        </Link>
+                        <nav className="hidden lg:flex gap-6 xl:gap-8">
+                            {navLinks.map(link => (
+                                <Link
+                                    key={link.path}
+                                    to={link.path}
+                                    className={`font-['Noto_Serif'] tracking-widest uppercase text-xs xl:text-sm transition-all duration-300 active:scale-95 ${currentPath === link.path
+                                            ? 'text-[#C8972A] border-b border-[#C8972A] pb-1'
+                                            : 'text-[#F5E9C8] opacity-70 hover:text-[#C8972A] hover:opacity-100'
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </nav>
+                        <div className="text-[#C8972A] cursor-pointer active:scale-95 flex items-center gap-4">
+                            <span className="material-symbols-outlined text-3xl">menu_book</span>
+                        </div>
+                    </header>
+
+                    <main className="flex-grow pt-24 md:pt-32">
+                        {children}
+                    </main>
+
+                    <footer className="bg-[#140D04] text-[#C8972A] font-['Noto_Serif'] text-sm italic tracking-tight flex flex-col md:flex-row justify-between items-center px-16 py-8 w-full border-t border-[#4F4536]/15 mt-auto">
+                        <div className="mb-4 md:mb-0">Saint John of Damascus — Pray for Us.</div>
+                        <div className="hidden md:flex items-center gap-4">
+                            <span className="w-4 h-[1px] bg-[#C8972A]/30"></span>
+                            <span className="material-symbols-outlined text-[12px]" style={{ fontVariationSettings: "'FILL' 1" }}>circle</span>
+                            <span className="w-4 h-[1px] bg-[#C8972A]/30"></span>
+                        </div>
+                        <div className="hover:text-[#4A2060] transition-all cursor-default">Developed by Dylan Nguyen</div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // --- Screen 2: Landing Page (Hero) ---
+        const LandingPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="min-h-screen pb-24 flex flex-col items-center justify-center px-6">
+                    <div className="max-w-5xl w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                        <div className="hidden md:flex col-span-1 flex-col items-center space-y-4 opacity-30">
+                            <div className="w-[1px] h-32 bg-[#C8972A]"></div>
+                            <span className="material-symbols-outlined text-[#C8972A]" style={{ fontVariationSettings: "'FILL' 1" }}>flare</span>
+                            <div className="w-[1px] h-32 bg-[#C8972A]"></div>
+                        </div>
+                        <div className="md:col-span-10 flex flex-col items-center text-center space-y-12">
+                            <header className="space-y-4">
+                                <h1 className="text-5xl md:text-7xl font-headline font-bold text-[#C8972A] tracking-tighter">
+                                    Saint John of Damascus
+                                </h1>
+                                <p className="text-xl md:text-2xl font-headline italic text-tertiary tracking-wide">
+                                    Doctor of the Church · Defender of the Holy Icons
+                                </p>
+                            </header>
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-gradient-to-tr from-secondary-container/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                <div className="relative bg-surface-container-high p-1 shadow-2xl">
+                                    <img
+                                        alt="Icon of Saint John of Damascus"
+                                        className="w-full max-w-md h-auto object-cover border border-[#4F4536]/30 shadow-[0_0_50px_rgba(200,151,42,0.15)]"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0ui_ppfCVOZiThy3gVQM6bqMawDvQNvJ0Y23ORVZgI8C3W4jShqD0sT4Es46sV21Tc4PLGRVNyw6I1KZGhYMeZPk6IfbJUaRX36omZ5poKUwsce00enzGUTe3DnEpVmgOiJIYZeaF0pPcCGpuHtZdRXECYPXZ8bLcPuZ2LBGkFmAIttEn3jd9J0ciVZ-CGzVTxP5WaADEZuM9yaI5VCi1riFX6p7tk13PQMiIoDZr14w_PjCNDJblGX4LTxh6ravltDB4zeJy9ZbFTE"
+                                    />
+                                    <div className="absolute inset-1 pointer-events-none border border-[#4F4536]/15"></div>
+                                </div>
+                            </div>
+                            <div className="max-w-2xl space-y-6">
+                                <div className="flex items-center justify-center space-x-4">
+                                    <div className="h-[1px] w-8 bg-outline-variant/30"></div>
+                                    <span className="material-symbols-outlined text-[#C8972A] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+                                    <div className="h-[1px] w-8 bg-outline-variant/30"></div>
+                                </div>
+                                <p className="text-lg md:text-xl font-body text-on-surface leading-relaxed tracking-wide">
+                                    Patron Saint of <span className="text-[#C8972A] font-semibold">Theologians</span>, <span className="text-[#C8972A] font-semibold">Icon Painters</span>, and <span className="text-[#C8972A] font-semibold">Pharmacists</span>.
+                                </p>
+                                <div className="pt-8 flex justify-center">
+                                    <button
+                                        onClick={() => navigate('/life')}
+                                        className="px-10 py-4 bg-primary text-on-primary font-bold tracking-widest uppercase text-sm hover:bg-secondary-container hover:text-white transition-all duration-500 cursor-pointer active:scale-95"
+                                    >
+                                        Enter the Manual
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="hidden md:flex col-span-1 flex-col items-center space-y-4 opacity-30">
+                            <div className="w-[1px] h-32 bg-[#C8972A]"></div>
+                            <span className="material-symbols-outlined text-[#C8972A]" style={{ fontVariationSettings: "'FILL' 1" }}>history_edu</span>
+                            <div className="w-[1px] h-32 bg-[#C8972A]"></div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 1: Life Chronology ---
+        const LifePage = () => {
+            return (
+                <div className="max-w-7xl mx-auto px-8 md:px-24 pb-24">
+                    <div className="mb-16">
+                        <p className="text-[#C8972A] serif-text uppercase tracking-[0.3em] text-sm mb-4">Chronicle of the Doctor of Christian Art</p>
+                        <h1 className="text-5xl md:text-7xl font-bold serif-text text-[#f1e0ce] leading-tight max-w-3xl">
+                            When & Where He Lived
+                        </h1>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                        <div className="lg:col-span-5 flex flex-col gap-8 order-2 lg:order-1">
+                            <div className="bg-surface-container-high p-1 relative overflow-hidden group">
+                                <img
+                                    alt="Chronicle Map"
+                                    className="w-full aspect-[4/5] object-cover filter grayscale sepia opacity-80 group-hover:opacity-100 transition-opacity duration-700"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC-8yMlO_CQ6_V6smjW63QYs-tvaHyNfXUXT0tHV7kj__lWRqB4qDrj9Qo4E58eZndRyuI1tLLwQeLCWC0aVtvZNeGE4pkogjLryMT4Vkl7bEMqutXo0FwIN-ezhC88jWZrXMIOj-EoWMGwcWlgzpKe_seHr902RnBzKgz18jsMlB94iUPy0vfHPJutt6NFXS--iHrc1hOeladNca9-LgStbeZrLIyXS_yioh6E0lRBuSX2I5846hJztIY7Y1nuVxQxFEgruBwAsdT"
+                                />
+                                <div className="absolute inset-0 bg-secondary-container mix-blend-overlay opacity-30"></div>
+                                <div className="absolute inset-0 border border-outline-variant/20 m-4 pointer-events-none"></div>
+                            </div>
+                            <div className="p-8 border-l-2 border-secondary-container bg-surface-container-low">
+                                <h3 className="serif-text text-xl text-primary mb-2">The Umayyad Caliphate</h3>
+                                <p className="text-on-surface-variant font-light leading-relaxed">
+                                    Damascus served as the administrative heart where Saint John bridged the gap between the Byzantine cultural heritage and the rising Islamic empire.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-7 flex flex-col gap-0 order-1 lg:order-2">
+                            {[
+                                { date: "c. 676 AD", title: "Birth in Damascus", text: "Born into a prominent Christian family. His father, Sarjun ibn Mansur, served as a high official at the court of the Muslim Caliphs." },
+                                { date: "676 – 726 AD", title: "Tax Collector & Statesman", text: "Following his father’s footsteps, he served as a tax collector for the Umayyad Caliphate until the age of 50, mastering the complexities of civil law and theology." },
+                                { date: "c. 706 AD", title: "Entry to Mar Saba Monastery", text: "Abandoning worldly wealth, he entered the Mar Saba Monastery near Jerusalem. This transition marked his shift from secular governance to spiritual defense." },
+                                { date: "726 – 730 AD", title: "The Iconoclastic Defense", text: "Issued powerful treatises defending the veneration of holy icons against the decrees of Byzantine Emperor Leo III, arguing for the sanctity of matter." },
+                                { date: "Later Years", title: "Critique of Islam", text: "Composed 'The Fountain of Wisdom,' which included one of the earliest Christian theological critiques of Islam, viewed then as a Christian heresy." },
+                                { date: "c. 749 AD", title: "Died in Peace", text: "The Last of the Greek Fathers reposed in the Lord at Mar Saba, leaving a legacy that would define the Second Council of Nicaea." }
+                            ].map((item, idx) => (
+                                <div key={idx} className={`relative pl-12 pb-12 border-l border-outline-variant/30 ${idx % 2 !== 0 ? 'bg-surface-container-low/30' : ''}`}>
+                                    <div className={`absolute -left-[5px] top-0 w-[10px] h-[10px] ${idx === 5 ? 'bg-primary' : 'bg-secondary-container'}`}></div>
+                                    <span className="text-[#C8972A] serif-text font-bold text-2xl">{item.date}</span>
+                                    <h4 className="text-f1e0ce text-xl font-semibold mt-2">{item.title}</h4>
+                                    <p className="text-on-surface-variant mt-3 max-w-lg leading-relaxed">{item.text}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 3: Theology/Quotes ---
+        const TheologyPage = () => {
+            return (
+                <div className="max-w-7xl mx-auto px-6 md:px-12 pb-32 flex flex-col items-center">
+                    <div className="mb-16 text-center w-full">
+                        <h1 className="text-3xl md:text-5xl font-headline tracking-widest text-[#C8972A] uppercase mb-4 leading-tight">
+                            Key quotes from Saint John of Damascus
+                        </h1>
+                        <div className="w-24 h-px bg-[#C8972A]/30 mx-auto"></div>
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center w-full">
+                        <div className="lg:col-span-4 flex flex-col order-2 lg:order-1">
+                            <div className="p-6 md:p-8 bg-surface-container-low border-l-2 border-[#C8972A]/40 relative shadow-xl">
+                                <p className="text-lg md:text-xl font-body leading-relaxed text-[#F5E9C8] italic">
+                                    "Since the Word of God has been made flesh, and has dwelt among us, and has taken upon Him the form of a servant, we may represent Him in icons."
+                                </p>
+                                <div className="mt-6 flex items-center gap-4">
+                                    <div className="h-px w-6 bg-[#C8972A]/50"></div>
+                                    <span className="text-[10px] font-label uppercase tracking-widest text-[#C8972A]">Apologia Against Those Who Decry Holy Images, First Treatise</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-4 flex justify-center items-center order-1 lg:order-2 py-4 lg:py-0">
+                            <div className="relative group max-w-[280px]">
+                                <div className="absolute inset-0 bg-[#4A2060]/20 blur-2xl group-hover:bg-[#C8972A]/10 transition-all duration-700"></div>
+                                <div className="relative border border-[#4F4536]/30 p-2 bg-surface-container shadow-2xl">
+                                    <img
+                                        alt="Saint John of Damascus icon"
+                                        className="w-full h-auto aspect-[3/4] object-cover filter brightness-[0.9]"
+                                        src="https://lh3.googleusercontent.com/aida/ADBb0uiATfjVZjFNZj7J7_GnIddH07F-96h_Zez7eBkJJvD5mOBfLfRTYNNbgq_2ejw97wjQj8moIYCZUO8QgASMZOFRd-I7yxygpUs2vcjqnICN66kAsL2Cu3kHiMnXsiIFZ4YfZupayrBjWRp1nD5Dcw9VDLmVuDJz0J5OgRWOTUJ6v8B2vgkMQNlbc0jT-s7TBsX_NlZxoklAv241a6UMuMKnH0WBmQ1j_GFPR5ali-dvQSxU4pW4W7gwt7OUJM5pxeTYrxnR2hcXoAo"
+                                    />
+                                    <div className="absolute inset-0 border-[0.5px] border-[#C8972A]/20 pointer-events-none m-4"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="lg:col-span-4 flex flex-col order-3 lg:order-3">
+                            <div className="p-6 md:p-8 bg-surface-container-high border-r-2 border-[#4A2060]/40 text-right relative shadow-xl">
+                                <p className="text-lg md:text-xl font-body leading-relaxed text-[#F5E9C8] italic">
+                                    "The Ishmaelites... have introduced a heresy, which prevails to this day, and is the forerunner of the Antichrist."
+                                </p>
+                                <div className="mt-6 flex items-center justify-end gap-4">
+                                    <span className="text-[10px] font-label uppercase tracking-widest text-[#C8972A]">On the Heresy of the Ishmaelites, Chapter 101</span>
+                                    <div className="h-px w-6 bg-[#C8972A]/50"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mt-20 max-w-3xl mx-auto text-center border-t border-[#4F4536]/15 pt-12">
+                        <h3 className="font-headline text-[#C8972A] text-base tracking-[0.2em] uppercase mb-6">The Theology of the Visible</h3>
+                        <p className="text-[#F5E9C8]/80 leading-loose font-body text-sm px-4">
+                            Saint John strongly defended icons because of his belief that Jesus, the Word, became flesh; thus, to reject icons was to reject the physical reality that the Word was made flesh. Another important teaching was his theological work 'Exposition of the Orthodox Faith,' which influenced later Catholic theologians in explaining the Trinity and the Sacraments. His work not only helped build the backbone of the Church but also served as the theological bridge between Eastern (Greek-speaking) and Western (Latin/Catholic) Christianity.
+                        </p>
+                        <div className="mt-10 flex justify-center gap-2">
+                            <span className="material-symbols-outlined text-[#C8972A] scale-75">diamond</span>
+                            <span className="material-symbols-outlined text-[#C8972A]">diamond</span>
+                            <span className="material-symbols-outlined text-[#C8972A] scale-75">diamond</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 4: Icons (Patron Saint) ---
+        const IconsPage = () => {
+            return (
+                <div className="pb-24 px-6 md:px-12 lg:px-24">
+                    <header className="mb-16 text-center max-w-4xl mx-auto">
+                        <p className="font-headline text-[#C8972A] tracking-[0.3em] uppercase text-sm mb-4">Heavenly Intercessor</p>
+                        <h1 className="font-headline text-5xl md:text-7xl text-[#C8972A] leading-tight mb-8">Patron Saint Of</h1>
+                        <p className="font-body text-[#F5E9C8] text-lg md:text-xl opacity-80 leading-relaxed italic mx-auto max-w-3xl">
+                            A legacy that transcends the written word, John of Damascus remains a key advocate for those who seek truth through reason, beauty through art, and healing through service.
+                        </p>
+                    </header>
+                    <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-2 gap-px bg-[#4F4536]/20 border border-[#4F4536]/20">
+                        <div className="md:col-span-4 md:row-span-1 bg-[#231A0F] p-8 md:p-10 flex flex-col justify-between group hover:bg-[#32281D] transition-colors duration-500">
+                            <div>
+                                <span className="material-symbols-outlined text-[#C8972A] text-4xl mb-6 block" style={{ fontVariationSettings: "'FILL' 1" }}>auto_stories</span>
+                                <h2 className="font-headline text-2xl text-[#C8972A] mb-4">Theologians</h2>
+                                <p className="font-body text-[#F5E9C8] text-base leading-relaxed opacity-70">
+                                    Venerated as a Doctor of the Church, his combination of apostolic tradition provides the foundational blueprint for those who study the divine mysteries.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="md:col-span-4 md:row-span-2 bg-[#140D04] border-x border-[#4F4536]/20 flex items-center justify-center p-4 relative overflow-hidden group">
+                            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#C8972A_1px,transparent_1px)] bg-[size:16px_16px]"></div>
+                            <img alt="Sacred icon" className="relative z-10 w-full h-full object-cover shadow-2xl transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0uhmtsj_tQZKCI8tam93RWyR5BINEYc__fs1Azd30OZ2HTIXJ0_CCcyAwYvH6779B7EtDbm8DKU4I37sw7cRV9JP-3QWrBFxc9V8digmU2o_dr64oNMm6rwtRZxrINl4qyYTkhc1l3LM-Os7UAn916abEDWv7ukUi9PWx0fie7TAiWvhroWXGPGaduSSb-NjVSdpIiBZXlZJ7hNZE23_flm-S4M89ysGs7sPsRpiA32CtBgoKjVnFUFZhioh-xSSdL6UNmlW8yZ2P9I" />
+                            <div className="absolute inset-0 border-[12px] border-double border-[#C8972A]/10 pointer-events-none z-20"></div>
+                        </div>
+                        <div className="md:col-span-4 md:row-span-1 bg-[#231A0F] p-8 md:p-10 flex flex-col justify-between group hover:bg-[#32281D] transition-colors duration-500">
+                            <div>
+                                <span className="material-symbols-outlined text-[#C8972A] text-4xl mb-6 block" style={{ fontVariationSettings: "'FILL' 1" }}>palette</span>
+                                <h2 className="font-headline text-2xl text-[#C8972A] mb-4">Icon Painters</h2>
+                                <p className="font-body text-[#F5E9C8] text-base leading-relaxed opacity-70">
+                                    The defender of the holy image, protecting the window to heaven through the brush of the iconographer and the chisel of the sculptor.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="md:col-span-4 md:row-span-1 bg-[#1A1208] p-8 md:p-10 border-t border-[#4F4536]/20 flex flex-col justify-between group hover:bg-[#32281D] transition-colors duration-500">
+                            <div>
+                                <span className="material-symbols-outlined text-[#C8972A] text-4xl mb-6 block" style={{ fontVariationSettings: "'FILL' 1" }}>medication</span>
+                                <h2 className="font-headline text-2xl text-[#C8972A] mb-4">Pharmacists</h2>
+                                <p className="font-body text-[#F5E9C8] text-base leading-relaxed opacity-70">
+                                    St. John of Damascus became the patron of healing and restoration after his hand, severed due to a enemy's forgery, was reportedly miraculously reattached through his prayers to the Virgin Mary.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="md:col-span-4 md:row-span-1 bg-[#1A1208] p-8 md:p-10 border-t border-[#4F4536]/20 flex flex-col justify-between group hover:bg-[#32281D] transition-colors duration-500">
+                            <div>
+                                <span className="material-symbols-outlined text-[#C8972A] text-4xl mb-6 block" style={{ fontVariationSettings: "'FILL' 1" }}>shield</span>
+                                <h2 className="font-headline text-2xl text-[#C8972A] mb-4">Defenders of Faith</h2>
+                                <p className="font-body text-[#F5E9C8] text-base leading-relaxed opacity-70">
+                                    A steadfast apologist(defender) whose logic dismantled heresy and whose courage stood firm against the imperial edicts of iconoclasm(against religous belifs).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 5: Symbols ---
+        const SymbolsPage = () => {
+            return (
+                <div className="pb-40 px-6 max-w-7xl mx-auto">
+                    <div className="mb-20 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+                        <div className="md:col-span-8">
+                            <h1 className="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-primary mb-6 leading-tight">Symbolism</h1>
+                            <p className="font-body text-xl text-tertiary max-w-2xl leading-relaxed italic">
+                                The life of Saint John of Damascus is etched into history through these sacred emblems, representing his defense of the faith and divine intercession.
+                            </p>
+                        </div>
+                        <div className="md:col-span-4 flex md:justify-end">
+                            <div className="w-16 h-1 bg-primary mb-2"></div>
+                        </div>
+                    </div>
+                    <section className="grid grid-cols-1 md:grid-cols-3 gap-0 border-outline-variant/10 border">
+                        {[
+                            { icon: "history_edu", title: "The Scroll", text: "The Fountain of Knowledge. Representing his vast theological writings, the scroll signifies his role as the great \"Synthesizer\" of the Church Fathers, bridging the wisdom of the ancient world into the medieval era.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuASjNgRZi_xsnFXaVNZREHo-NhxcdSIbkHs4UEPRF9K8hgj5DrLdRjRVonOQInXw7qtomSvs1_cMuSnefe2dqMTYg7dAa39dm-Ns_ZCCrvIYiA_MYrrnFWYdQQU7Y2GKI7NpyLiQMYMKJ1U7k63MbWnIs0_f1PPlL5q0FfiI_kL8zpNXBGMElNyqwTw1k4RNUq2gbXnL8dHH6mX5kKWpzeCB-feTZwCYa3G5SJpOClEZTkSNuUDyP2mrAmHaOldA2YEQJ8Xv0mNevYF" },
+                            { icon: "image_aspect_ratio", title: "The Holy Icon", text: "His fierce defense of sacred images during the Iconoclasm. John argued that since God became flesh in Christ, the divine could be depicted, sanctifying matter itself and windows into the spiritual realm.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuB4oRBZGbWtdwY_binF4gzZ79pkqa9BCd7dsmAwf2aq_GJc_jcAVy3nQQlkTUoyLWEMZp7rV0IM6ywBJqFU0VGfJEOS2JJwaeLxMVV5GX6NgXKCUUVVpzF-RGrlIf7hFr-OWfpHvQ4U58gNYxwupIwGexQ1-2kVJWStFRomojzvQ3-GiXyTdFvQto7SBiEeAboLLsBBt8e9W-4x_1dtBuMC0OGnKkadCLjuDuY2RiJWBy9sscxJLfY7FZ1qdOvSSyHby8yvx1RggJ5k" },
+                            { icon: "back_hand", title: "The Restored Hand", text: "A witness to the miracle of Mary. After his hand was severed by calumny, John prayed before an icon of the Theotokos; his hand was miraculously reattached, a sign of his vocation to write for the Glory of God.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBiszbQnLqV5tPmsUj0I5lr8uOAWoJixyuN7IdZ3oLKU73OcZQSUKcDu_7v7sv_rWGb-XFarK8O_-1Yio2Awdxztb9nnfdBlDDUN0TGtdQgzWhMSU2tnqTOg5hJL_PFehWBm4JhX_vGET_CwEwVSdFQJ9mLc-yJQE-pkhXc-NU74JSXQ_Ycab0CMhGcrI29dMqKE_VMBILGqVAM65prJbetU09ZDmT5XgtxeLNvvWlngDTYpj33hlRH-xWVmMdAJfbgx8IhylCejMQu" }
+                        ].map((item, idx) => (
+                            <div key={idx} className="group relative aspect-[4/5] bg-surface-container-low border-r border-outline-variant/10 p-10 flex flex-col justify-between transition-colors duration-500 hover:bg-surface-container-high">
+                                <div className="absolute inset-0 opacity-10 grayscale group-hover:grayscale-0 transition-all duration-700 overflow-hidden pointer-events-none">
+                                    <img className="w-full h-full object-cover" src={item.img} alt={item.title} />
+                                </div>
+                                <div className="relative z-10">
+                                    <span className="material-symbols-outlined text-6xl text-primary-container mb-8 block">{item.icon}</span>
+                                    <h3 className="font-headline text-3xl font-bold tracking-wide text-primary mb-4 uppercase">{item.title}</h3>
+                                </div>
+                                <div className="relative z-10">
+                                    <p className="font-body text-on-surface leading-loose text-lg">{item.text}</p>
+                                    <div className="mt-8 h-[1px] w-12 bg-primary opacity-40 group-hover:w-full transition-all duration-500"></div>
+                                </div>
+                            </div>
+                        ))}
+                    </section>
+                    <div className="mt-32 grid grid-cols-1 md:grid-cols-12">
+                        <div className="md:col-start-6 md:col-span-7">
+                            <blockquote className="font-headline text-2xl text-tertiary italic border-l-4 border-secondary-container pl-8 py-4">
+                                "I do not worship matter, I worship the Creator of matter who became matter for my sake, who willed to take His abode in matter, who worked out my salvation through matter."
+                            </blockquote>
+                            <cite className="block mt-6 font-body text-primary-container uppercase tracking-widest text-sm">— Apologia Against Those Who Decry Holy Images</cite>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 6: Virtues ---
+        const VirtuesPage = () => {
+            const navigate = useNavigate();
+            return (
+                <div className="bg-[#4A2060] -mt-24 md:-mt-32 pt-32 pb-24">
+                    <div className="max-w-6xl mx-auto px-6">
+                        <header className="mb-20">
+                            <span className="text-[#C8972A] font-headline uppercase tracking-[0.3em] text-sm block mb-4">Chapter VI</span>
+                            <h1 className="text-5xl md:text-7xl font-bold text-[#C8972A] leading-tight tracking-tighter">His Virtues</h1>
+                            <div className="h-1 w-24 bg-[#C8972A] mt-6"></div>
+                        </header>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#4F4536]/20">
+                            {[
+                                { icon: "shield", title: "Fortitude", text: "The unwavering strength to defend the sacred icons against the imperial edicts, standing as a pillar of truth when the world turned to shadow.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDrBTHJb9F7f5_otJ1X7zgBzSe16SLfau46FsU4lKxjnTnErMke_55eJhfK93elPtRk5Z4eGznZI-wkYWv1rNAbFg59Mn3Qzze2mS6kvXfS0R7v7wAGMoPIzxj0sJ3CGmjkH-QmjcVhia95tnuUcOCfm84pIF3cO8dTYzpIZ79rNRh-SWH_T8JRxVS0tp7PoF9PYAdFq0CdA7RkZ5A54Cgn6MrU4GX0qLHuMFUIBWqEnhvybA_sAhu4bev8Mu90BfVp7favN6WOWKSc" },
+                                { icon: "architecture", title: "Humility", text: "From the high courts of the Caliphate to the silence of the Mar Saba monastery, choosing the poverty of a monk over the riches of a vizier.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuApujJkbOUSUMJjoK4-dj9pI1zTwGVEq8vj4GAIoSa1BrHP2RC22pIwEi1sJN4CezDzsZLY6xuEbRQL0DvoU_se59veR1PCBmZAJO_Jb7tri4IJ801IacUzKlVT_YdjEtRzkVPtVdEPnScnVW_GA6DAdQFYw04fYwNNRG3rjG9OAN5JWaM10uZKYSSuvQVf27FdskTfVbXnbF6qNOrhVduv2gCjoghpgnjFk9AL8crGP4EZHwIW2-xFQYntDra5-lt07SagexExL77b" },
+                                { icon: "balance", title: "Prudence", text: "The intellectual mastery to combine centuries of Christian thought into a singular, cohesive Fountain of Knowledge for all generations.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDzoBBzi6ncIoqBpswani6PV5RTfpXZHSeOM1K9btohnwyAzOmKuOD8rJAqrVbz6m1zQz9Of_1x5fMWuu9R5HlIRxGhzrY_TqkDQQV4-hw9Lf3VkB2XNDtrqmI7mUZcXvhnpHsLy4eE3dQmQbLdqJOLY-ScYg6RL8Xpe4Pnyuwcf6NBrbrdiBhyIpBRBXMczZtepN-qyxjd9_MjWvbmuml3SmKWn-YSqR5uixen-ygYM0jz8AnQgl9pXhsTcf4yMS-_hOwQAkHU64Oh" },
+                                { icon: "auto_awesome", title: "Devotion to Mary", text: "A heart ablaze with love for the Theotokos, whose hymns remain the definitive poetic expression of her heavanly glory.", img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCIiU2oeP6-Z5PG74UE1Pxyq2Euy_JC6gYTTAYwAVmf3539s-0umh8RenICMD7oHs85XvqtfN__b2SpXvqr-VzGhGZIi3pCuzxX73AXzutyyBGUfsr3aIAKGXEWrrnxUIhpjb1uJqvQXnqbRHgZiQJFSrNZOLKy4Eo84VPTyCBcrVgBF7j7Xix47HxGTmeqS_obuEQ2Jd5E4-tFesCRDQtCKrlPYJgjz68zi9_JuTn2OSxpcBiA6Him1g3LYyuSTa6Qhlcee3mWWjpC" }
+                            ].map((item, idx) => (
+                                <div key={idx} className={`bg-[#4A2060] p-12 flex flex-col justify-between min-h-[400px] ${idx % 2 !== 0 ? 'md:border-l' : ''} ${idx > 1 ? 'border-t' : ''} border-[#4F4536]/20`}>
+                                    <div>
+                                        <div className="mb-8 opacity-40">
+                                            <span className="material-symbols-outlined text-5xl text-[#C8972A]">{item.icon}</span>
+                                        </div>
+                                        <h2 className="text-3xl font-bold text-[#C8972A] mb-6 tracking-wide">{item.title}</h2>
+                                        <p className="text-[#F5E9C8] text-lg leading-relaxed font-light opacity-90 max-w-sm">{item.text}</p>
+                                    </div>
+                                    <div className="mt-8">
+                                        <img className="w-full h-32 object-cover grayscale opacity-50 ghost-border" src={item.img} alt={item.title} />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <footer className="mt-24 flex justify-center">
+                            <button
+                                onClick={() => navigate('/legacy')}
+                                className="bg-[#C8972A] text-[#412D00] px-12 py-5 font-headline uppercase tracking-widest text-sm hover:bg-[#623778] hover:text-[#F5E9C8] transition-all duration-500 active:scale-95"
+                            >
+                                Explore the Legacy
+                            </button>
+                        </footer>
+                    </div>
+                </div>
+            );
+        };
+
+        // --- Screen 7: Legacy & Miracles ---
+        const LegacyPage = () => {
+            return (
+                <div className="min-h-screen">
+                    <section className="bg-[#F5E9C8] text-[#4A2060] py-24 px-8 parchment-texture">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="mb-16 text-center">
+                                <h2 className="font-headline text-4xl md:text-5xl tracking-widest uppercase mb-4">Following the Path</h2>
+                                <p className="font-body italic text-lg opacity-80 max-w-2xl mx-auto">"He who seeks to know the truth must first seek to live it.John 8:31-32"</p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0 border border-[#4A2060]/10">
+                                {[
+                                    { icon: "lightbulb", text: "Use your mind and talents for God → Knowledge" },
+                                    { icon: "shield", text: "Stand up for your faith → Fortitude (Courage)" },
+                                    { icon: "folded_hands", text: "Practice humility and obedience → Fear of the Lord (Awe)" },
+                                    { icon: "star", text: "Pray to Mary → Piety (Reverence)" }
+                                ].map((card, idx) => (
+                                    <div key={idx} className="p-12 border-r border-[#4A2060]/10 hover:bg-[#4A2060]/5 transition-all group flex flex-col justify-between aspect-square">
+                                        <span className="material-symbols-outlined text-4xl mb-8 group-hover:scale-110 transition-transform">{card.icon}</span>
+                                        <h3 className="font-headline text-xl leading-tight uppercase tracking-wider">{card.text}</h3>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="bg-[#1A1208] py-32 px-8 overflow-hidden">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="flex flex-col md:flex-row gap-16 items-start">
+                                <div className="md:w-1/3 sticky top-32">
+                                    <h2 className="font-headline text-5xl text-[#C8972A] leading-none mb-8 tracking-tighter">Miracles of Saint John of Damascus</h2>
+                                    <div className="w-16 h-px bg-[#C8972A]/30 mb-8"></div>
+                                    <p className="text-[#F5E9C8] font-body text-lg leading-relaxed opacity-70">The divine hand manifesting through the faithful witness, where history dissolves into the eternal presence of the miraculous.</p>
+                                </div>
+                                <div className="md:w-2/3 space-y-24">
+                                    <div className="group relative">
+                                        <div className="absolute -left-8 top-0 text-7xl font-headline text-[#C8972A]/10 select-none">01</div>
+                                        <div className="pl-8 border-l border-[#C8972A]/20">
+                                            <h4 className="font-headline text-3xl text-[#C8972A] mb-6 uppercase tracking-widest">The Restored Hand</h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                                <div className="space-y-4">
+                                                    <p className="text-[#F5E9C8] font-body leading-relaxed text-lg">Wrongly accused of treason, John's right hand was severed by order of the Caliph. John prayed before the icon of the Theotokos, placing his hand against the stump. He awoke with his hand fully restored, leaving only a thin red line as proof of the miracle.</p>
+                                                    <div className="pt-4">
+                                                        <span className="text-[#C8972A] text-sm uppercase tracking-[0.3em] font-headline">The Three-Handed Icon</span>
+                                                    </div>
+                                                </div>
+                                                <div className="relative aspect-video overflow-hidden border border-[#4F4536]/30">
+                                                    <img
+                                                        className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700"
+                                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq8FDvexNVfYqTZtBoXep-Tm0kyqalb8RCMHxViQcwMN-_QYctdT4t4nBHG6u6S_d5umAb0TuG26UiA5g-34HYBjT6uf-NtV8ZEfKpSgm0QRJDWDHBx7Jqtt4FkSDrfRtdy26ZRY4HtoZdC4m0xV24TTWPoZSyMTNpMGmCn3MOr8yMbsOfcI49Tjer6_uYjKcOXWJZCCVrC5RIrZPZIZrVFBhPfYp8VdkuhnGc0VGYr0svLl2RGU2D9tA0y4EcvSFvIpJrEQinopM7"
+                                                        alt="Miracle of the Hand"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="group relative">
+                                        <div className="absolute -left-8 top-0 text-7xl font-headline text-[#C8972A]/10 select-none">02</div>
+                                        <div className="pl-8 border-l border-[#C8972A]/20">
+                                            <h4 className="font-headline text-3xl text-[#C8972A] mb-6 uppercase tracking-widest">Healing and Protection</h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                                                <div className="relative aspect-video overflow-hidden border border-[#4F4536]/30 order-2 md:order-1">
+                                                    <img
+                                                        className="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700"
+                                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBo8vtRVexsLlV9UlJTay42t3I0TCRQQrrqy0A3Wz879HJuk_T2ZmR5agHxtS2gANzQZbMp2UQrDRWfGQOhGxiuCPLCvZpxxFopG6FPbvr_TRwgOqw14GotC0q3zMneXYnYyRCvyccFdpE1NM-KKCeq3xgZgkAxBo2N41miLAl2RLrn3fnkcOOH7k5YPvqVFnEndrAjRrOvbXwPHmaO7NUBwS3HDp_fYR7gDv-w6KmeGjo-OiVZn-XBzb-Xf82im7OnFFlozITIX_fL"
+                                                        alt="Healing Light"
+                                                    />
+                                                </div>
+                                                <div className="space-y-4 order-1 md:order-2">
+                                                    <p className="text-[#F5E9C8] font-body leading-relaxed text-lg">Throughout his life at Mar Saba, many were healed by his intercession. Even after his repose, his tomb became a source of spiritual and physical protection for the monks, with accounts of miraculous light emanating from his cell during the night office.</p>
+                                                    <div className="pt-4">
+                                                        <span className="text-[#C8972A] text-sm uppercase tracking-[0.3em] font-headline">Light of Mar Saba</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return (
+                <MemoryRouter>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/life" element={<LifePage />} />
+                            <Route path="/theology" element={<TheologyPage />} />
+                            <Route path="/icons" element={<IconsPage />} />
+                            <Route path="/symbols" element={<SymbolsPage />} />
+                            <Route path="/virtues" element={<VirtuesPage />} />
+                            <Route path="/legacy" element={<LegacyPage />} />
+                        </Routes>
+                    </Layout>
+                </MemoryRouter>
+            );
+        };
+
+        const rootElement = document.getElementById('root');
+        const root = createRoot(rootElement);
+        root.render(<App />);
+    </script>
+</body>
+
+</html>
